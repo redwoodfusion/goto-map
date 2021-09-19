@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import mapbox from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-mapbox.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
+export const getApiKey = () => {
+  const MAPBOX_APIKEY = process.env.NEXT_PUBLIC_MAPBOX_APIKEY;
+  if (!MAPBOX_APIKEY) {
+    throw new Error("URLが環境変数からセットされていません");
+  }
+  return MAPBOX_APIKEY;
+};
+
+mapbox.accessToken = getApiKey() || "";
 
 interface MapProps {
   center: [number, number];
@@ -35,7 +43,21 @@ const Map = ({ center, zoom }: MapProps) => {
     }
   }, [center]);
 
-  return <div id="map" style={styles}></div>;
+  return (
+    <div id="map" style={styles}>
+      <style jsx>
+        {`
+          .Home_container__1EcsU {
+            padding: 0;
+            width: 100%;
+          }
+          .mapboxgl-canvas {
+            width: 100% !important;
+          }
+        `}
+      </style>
+    </div>
+  );
 };
 
 export default Map;
