@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Link from "next/link";
 
 interface ButtonProps {
@@ -6,7 +6,7 @@ interface ButtonProps {
   url: string;
 }
 
-const Button = ({ url, label }: ButtonProps) => {
+const Button = ({ url, label }: ButtonProps):ReactElement => {
   const styles: React.CSSProperties = {
     display: "inline-block",
     background: "#808080",

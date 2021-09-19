@@ -1,12 +1,24 @@
 module.exports = {
-  "parser": "babel-eslint",
-  "plugins": ["prettier"],
-  "extends": ["plugin:react/recommended"],
-  "rules": {
-      "prettier/prettier": "error"
-  },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["node", "@typescript-eslint"],
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2015,
+      "sourceType": "module",
   },
+  "rules": {
+    semi: "off",
+    "@typescript-eslint/semi": ["error"],
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+          allowHigherOrderFunctions: true,
+      },
+    ],
+  },
+  "extends": [
+    "prettier",
+  ],
 };

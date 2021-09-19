@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 import mapbox from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-export const getApiKey = () => {
+export const getApiKey = ():string => {
   const MAPBOX_APIKEY = process.env.NEXT_PUBLIC_MAPBOX_APIKEY;
   if (!MAPBOX_APIKEY) {
     throw new Error("URLが環境変数からセットされていません");
@@ -17,7 +17,7 @@ interface MapProps {
   zoom: number | 5;
 }
 
-const Map = ({ center, zoom }: MapProps) => {
+const Map = ({ center, zoom }: MapProps):ReactElement => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [map, setMap] = useState<mapbox.Map | null>(null);
   const styles: React.CSSProperties = {
@@ -45,16 +45,15 @@ const Map = ({ center, zoom }: MapProps) => {
 
   return (
     <div id="map" style={styles}>
-      <style jsx>
-        {`
-          .Home_container__1EcsU {
-            padding: 0;
-            width: 100%;
-          }
-          .mapboxgl-canvas {
-            width: 100% !important;
-          }
-        `}
+      <style jsx>{`
+        .Home_container__1EcsU {
+          padding: 0;
+          width: 100%;
+        }
+        .mapboxgl-canvas {
+          width: 100% !important;
+        }
+      `}
       </style>
     </div>
   );
