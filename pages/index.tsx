@@ -1,18 +1,24 @@
-import { NextPage } from 'next'
-import dynamic from 'next/dynamic';
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import React from "react";
+import { NextPage } from "next";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
-import Button from '../components/Button'
+import Button from "../components/Button";
 
-const Map = dynamic(() => import('../components/Map'), {
-  loading: () => <p>Loading...</p>,
-  ssr: false
+const loadingText = () => {
+  const Element = () => <p>Loading...</p>;
+  return Element;
+};
+
+const Map = dynamic(() => import("../components/Map"), {
+  loading: loadingText(),
+  ssr: false,
 });
 const initPos = {
   x: 129.073532,
   y: 32.967488,
-}
+};
 
 const Home: NextPage = () => {
   return (
@@ -25,8 +31,7 @@ const Home: NextPage = () => {
       <Button label="あいうえお" url="http://google.com" />
       <Map center={[initPos.x, initPos.y]} zoom={11} />
     </div>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;

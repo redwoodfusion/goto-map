@@ -16,7 +16,13 @@ const Button = ({ url, label }: ButtonProps) => {
     borderBottom: "4px solid #333",
   };
 
-  return <Link href={url}><a className="button" style={styles}>{label}</a></Link>;
+  return (
+    <Link href={url}>
+      <a className="button" style={styles}>
+        {label}
+      </a>
+    </Link>
+  );
 };
 
 export default Button;
