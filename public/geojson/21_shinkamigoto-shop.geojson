@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "よかよ",
+        "icon": "restaurant-15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [129.0861083712546, 32.98545308142654]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "description": "<h2>ラーメン 川廉</h2><p>おいしいよ</p>",
+        "icon": "music-15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [129.08415359608426, 32.98589241033313]
+      }
+    }
+  ]
+}

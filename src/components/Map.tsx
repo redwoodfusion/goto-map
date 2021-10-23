@@ -39,56 +39,50 @@ const Map: React.FC<Props> = ({ center, zoom }) => {
       zoom: zoom,
     });
 
-    // map.on('click', 'places', (e) => {
-    //   const markerHeight = 50;
-    //   const markerRadius = 10;
-    //   const linearOffset = 25;
-    //   const popupOffsets = {
-    //     'top': [0, 0],
-    //     'top-left': [0, 0],
-    //     'top-right': [0, 0],
-    //     'bottom': [0, -markerHeight],
-    //     'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //     'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //     'left': [markerRadius, (markerHeight - markerRadius) * -1],
-    //     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-    //   };
-    //   const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'my-class'})
-    //     .setLngLat(e.lngLat)
-    //     .setHTML("<h1>Hello World!</h1>")
-    //     .setMaxWidth("300px")
-    //     .addTo(map);
-    // });
-    // map.on('load', () => {
-    //   map.addControl(new mapboxgl.NavigationControl());
-    //   map.loadImage(
-    //     '/icon/church_yellow.png',
-    //     (error, image) => {
-    //       if (error) throw error;
+    map.on('load', () => {
+      map.addSource('shop_points', {
+        'type': 'geojson',
+        'data': '/geojson/21_shinkamigoto-shop.geojson'
+      });
 
-    //       // Add the image to the map style.
-    //       map.addImage('church', image);
-    //       // Add a data source containing one point feature.
-    //       map.addSource('point', {
-    //         'type': 'geojson',
-    //         'data': '/geojson/20_shinkamigoto-church.geojson'
-    //       });
+      // Add a layer to use the image to represent the data.
+      map.addLayer({
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'shop_points', // reference the data source
+        'layout': {
+          'icon-image': 'restaurant-15', // reference the image
+          'icon-allow-overlap': true
+        }
+      });
+    });
+    map.on('click', 'points', (e:any) => {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const description = e.features[0].properties.description;
 
-    //       // Add a layer to use the image to represent the data.
-    //       map.addLayer({
-    //         'id': 'points',
-    //         'type': 'symbol',
-    //         'source': 'point', // reference the data source
-    //         'layout': {
-    //           'icon-image': 'church', // reference the image
-    //           'icon-size': 0.5
-    //         }
-    //       });
-    //     }
-    //   );
-    // });
-    map.on('mousedown', function () {
-      console.log('マウスクリック済');
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map);
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'points', () => {
+      console.log("enter");
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'points', () => {
+      console.log("leave");
+      map.getCanvas().style.cursor = '';
     });
 
     // mapboxgl.Mapのインスタンスへの参照を保存(未使用)
