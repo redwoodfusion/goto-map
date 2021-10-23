@@ -15,7 +15,7 @@ mapboxgl.accessToken = getApiKey() || "";
 type Props = {
   center: [number, number],
   zoom: number | 5
-}
+};
 
 const Map: React.FC<Props> = ({ center, zoom }) => {
   // mapboxgl.Mapのインスタンスへの参照を保存するためのuseState
@@ -42,7 +42,7 @@ const Map: React.FC<Props> = ({ center, zoom }) => {
       map.addSource('arikawa', {
         'type': 'geojson',
         'data': '/geojson/00_shinkamigoto.geojson'
-      })
+      });
       map.addLayer({
         'id': 'arikawa',
         'type': 'fill',
