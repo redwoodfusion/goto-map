@@ -12,14 +12,10 @@ export const getApiKey = ():string => {
 
 mapboxgl.accessToken = getApiKey() || "";
 
-// interface MapProps {
-//   center: [number, number];
-//   zoom: number | 5;
-// }
 type Props = {
   center: [number, number],
   zoom: number | 5
-}
+};
 
 const Map: React.FC<Props> = ({ center, zoom }) => {
   // mapboxgl.Mapのインスタンスへの参照を保存するためのuseState
@@ -32,73 +28,67 @@ const Map: React.FC<Props> = ({ center, zoom }) => {
     height: "100%",
     width: "100%",
   };
-
-
   useEffect(() => {
     // mapContainer.currentはnullになり得るので型ガード（ていねい）
     if (!mapContainer.current) return;
 
     const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/redwoodfusion/cktn61woa3luf18p1f7916x2m",
-        center: center,
-        zoom: zoom,
+      container: mapContainer.current,
+      style: "mapbox://styles/redwoodfusion/cktn61woa3luf18p1f7916x2m",
+      center: center,
+      zoom: zoom,
     });
-    map.on('load', () => {
-      map.addSource('arikawa', {
-        'type': 'geojson',
-        'data': {
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'Polygon',
-            'coordinates': [
-              [
-                [-67.13734, 45.13745],
-                [-66.96466, 44.8097],
-                [-68.03252, 44.3252],
-                [-69.06, 43.98],
-                [-70.11617, 43.68405],
-                [-70.64573, 43.09008],
-                [-70.75102, 43.08003],
-                [-70.79761, 43.21973],
-                [-70.98176, 43.36789],
-                [-70.94416, 43.46633],
-                [-71.08482, 45.30524],
-                [-70.66002, 45.46022],
-                [-70.30495, 45.91479],
-                [-70.00014, 46.69317],
-                [-69.23708, 47.44777],
-                [-68.90478, 47.18479],
-                [-68.2343, 47.35462],
-                [-67.79035, 47.06624],
-                [-67.79141, 45.70258],
-                [-67.13734, 45.13745]
-              ]
-            ]
-          }
-        }
-      });
-      map.addLayer({
-        'id': 'arikawa',
-        'type': 'fill',
-        'source': 'arikawa',
-        'layout': {},
-        'paint': {
-          'fill-color': '#FF80ff',
-          'fill-opacity': 0.5
-        }
-      });
-      // map.addLayer({
-      //   'id': 'outline',
-      //   'type': 'line',
-      //   'source': 'arikawa',
-      //   'layout': {},
-      //   'paint': {
-      //     'line-color': '#000',
-      //     'line-width': 3
-      //   }
-      // });
+
+    // map.on('click', 'places', (e) => {
+    //   const markerHeight = 50;
+    //   const markerRadius = 10;
+    //   const linearOffset = 25;
+    //   const popupOffsets = {
+    //     'top': [0, 0],
+    //     'top-left': [0, 0],
+    //     'top-right': [0, 0],
+    //     'bottom': [0, -markerHeight],
+    //     'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    //     'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+    //     'left': [markerRadius, (markerHeight - markerRadius) * -1],
+    //     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+    //   };
+    //   const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'my-class'})
+    //     .setLngLat(e.lngLat)
+    //     .setHTML("<h1>Hello World!</h1>")
+    //     .setMaxWidth("300px")
+    //     .addTo(map);
+    // });
+    // map.on('load', () => {
+    //   map.addControl(new mapboxgl.NavigationControl());
+    //   map.loadImage(
+    //     '/icon/church_yellow.png',
+    //     (error, image) => {
+    //       if (error) throw error;
+
+    //       // Add the image to the map style.
+    //       map.addImage('church', image);
+    //       // Add a data source containing one point feature.
+    //       map.addSource('point', {
+    //         'type': 'geojson',
+    //         'data': '/geojson/20_shinkamigoto-church.geojson'
+    //       });
+
+    //       // Add a layer to use the image to represent the data.
+    //       map.addLayer({
+    //         'id': 'points',
+    //         'type': 'symbol',
+    //         'source': 'point', // reference the data source
+    //         'layout': {
+    //           'icon-image': 'church', // reference the image
+    //           'icon-size': 0.5
+    //         }
+    //       });
+    //     }
+    //   );
+    // });
+    map.on('mousedown', function () {
+      console.log('マウスクリック済');
     });
 
     // mapboxgl.Mapのインスタンスへの参照を保存(未使用)
